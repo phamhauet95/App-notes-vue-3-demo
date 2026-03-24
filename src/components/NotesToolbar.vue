@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import type { SortOrder } from '../stores/notes'
+import IconKeyboardArrowDown from './icons/IconKeyboardArrowDown.vue';
 
 defineProps<{
   searchQuery: string
@@ -11,6 +13,16 @@ const emit = defineEmits<{
   (e: 'update:sort-order', value: SortOrder): void
   (e: 'add'): void
 }>()
+
+const isSelectActive = ref(false)
+
+function handleSelectFocus() {
+  isSelectActive.value = true
+}
+
+function handleSelectBlur() {
+  isSelectActive.value = false
+}
 </script>
 
 <template>
@@ -30,20 +42,30 @@ const emit = defineEmits<{
           )
         "
       />
+       <div class="relative md:w-56">
+           <select
+          class="h-12 w-full appearance-none rounded-2xl border border-slate-300 bg-white px-4 pr-11 text-slate-900 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+          :value="sortOrder"
+          @focus="handleSelectFocus"
+          @blur="handleSelectBlur"
+          @change="
+            emit(
+              'update:sort-order',
+              ($event.target as HTMLSelectElement).value as SortOrder,
+            )
+          "
+        >
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+        </select>
 
-      <select
-        class="h-12 rounded-2xl border border-slate-300 bg-white px-4 text-slate-900 outline-none transition cursor-pointer focus:border-slate-500 focus:ring-2 focus:ring-slate-200 md:w-48"
-        :value="sortOrder"
-        @change="
-          emit(
-            'update:sort-order',
-            ($event.target as HTMLSelectElement).value as SortOrder,
-          )
-        "
-      >
-        <option value="newest">Newest first</option>
-        <option value="oldest">Oldest first</option>
-      </select>
+        <span
+          class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-500 transition-all duration-200"
+          :class="isSelectActive ? 'rotate-180 text-slate-900' : 'rotate-0'"
+        >
+          <IconKeyboardArrowDown />
+        </span>
+       </div>
     </div>
 
     <button
