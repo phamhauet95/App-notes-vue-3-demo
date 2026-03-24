@@ -23,6 +23,14 @@ function handleSelectFocus() {
 function handleSelectBlur() {
   isSelectActive.value = false
 }
+
+function handleSelectChange(event: Event) {
+  const value = (event.target as HTMLSelectElement).value as SortOrder
+  emit('update:sort-order', value)
+
+  // reset icon state ngay sau khi chọn xong
+  isSelectActive.value = false
+}
 </script>
 
 <template>
@@ -48,12 +56,7 @@ function handleSelectBlur() {
           :value="sortOrder"
           @focus="handleSelectFocus"
           @blur="handleSelectBlur"
-          @change="
-            emit(
-              'update:sort-order',
-              ($event.target as HTMLSelectElement).value as SortOrder,
-            )
-          "
+          @change="handleSelectChange"
         >
           <option value="newest">Newest first</option>
           <option value="oldest">Oldest first</option>
@@ -61,7 +64,7 @@ function handleSelectBlur() {
 
         <span
           class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-500 transition-all duration-200"
-          :class="isSelectActive ? 'rotate-180 text-slate-900' : 'rotate-0'"
+          :class="isSelectActive ? 'rotate-180 text-slate-900' : 'rotate-0 text-slate-500'"
         >
           <IconKeyboardArrowDown />
         </span>
