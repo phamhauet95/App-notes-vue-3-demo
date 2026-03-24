@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { NoteItem } from '../stores/notes'
+import IconClose from './icons/IconClose.vue';
 
 const props = defineProps<{
   note: NoteItem
@@ -27,11 +28,11 @@ const formattedDate = computed(() => {
   >
     <div class="mb-2 flex justify-end">
       <button
-        class="flex h-9 w-9 items-center justify-center rounded-full bg-white/70 text-xl text-slate-800 text-red-500 hover:bg-white"
+        class="flex h-9 w-9 items-center justify-center rounded-full bg-white/70 text-xl text-red-500 hover:bg-white"
         aria-label="Delete note"
         @click="emit('remove', note.id)"
       >
-        ×
+        <IconClose />
       </button>
     </div>
 

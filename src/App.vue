@@ -8,6 +8,7 @@ import PaginationControls from './components/PaginationControls.vue'
 import Notification from './components/common/Notification.vue'
 import { useNotificationStore } from './stores/notification'
 import ConfirmDeleteModal from './components/ConfirmDeleteModal.vue'
+import IconPlus from './components/icons/IconPlus.vue'
 
 const store = useNotesStore()
 const notify = useNotificationStore()
@@ -115,11 +116,11 @@ onMounted(() => {
         @close="closeDeleteModal"
         @confirm="confirmDelete"
       /><button
-          class="fixed bottom-6 right-6 flex h-14 w-14 items-center justify-center rounded-full bg-slate-900 text-3xl text-white shadow-2xl"
+          class="fixed bottom-6 right-6 h-14 w-14 flex items-center justify-center rounded-full bg-slate-900 text-3xl text-white shadow-2xl leading-none"
           aria-label="Add note"
           @click="openModal"
         >
-          +
+          <IconPlus />
         </button>
     </div>
   </div>
